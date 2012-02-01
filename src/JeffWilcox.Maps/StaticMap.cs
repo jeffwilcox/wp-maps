@@ -138,6 +138,36 @@ namespace JeffWilcox.Controls
         }
         #endregion public StaticMapProviderType Provider
 
+        #region public StaticMapMode MapMode
+        /// <summary>
+        /// Gets or sets the visual map mode for the map image.
+        /// </summary>
+        public StaticMapMode MapMode
+        {
+            get { return (StaticMapMode)GetValue(MapModeProperty); }
+            set { SetValue(MapModeProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the MapMode DependencyProperty
+        /// </summary>
+        public static readonly DependencyProperty MapModeProperty =
+            DependencyProperty.Register("MapMode", typeof(StaticMapMode), typeof(StaticMap), new PropertyMetadata(StaticMapMode.Map, OnMapModePropertyChanged));
+
+        /// <summary>
+        /// MapModeProperty property changed handler
+        /// </summary>
+        /// <param name="d">StaticMap that changed its Provider.</param>
+        /// <param name="e">Event arguments.</param>
+        private static void OnMapModePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            StaticMap source = d as StaticMap;
+            source.UpdateProvider();
+            source.UpdateMap();
+        }
+
+        #endregion public StaticMapMode MapMode
+
         #region public Uri ActualImageSource
         /// <summary>
         /// Sets the actual image source. Only exposes the getter to
@@ -257,6 +287,14 @@ namespace JeffWilcox.Controls
                     _mapProvider = new StaticGoogleMapsProvider();
                     break;
 
+                case StaticMapProviderType.MapQuest:
+                    _mapProvider = new StaticMapQuestProvider();
+                    break;
+
+                case StaticMapProviderType.OpenStreetMap:
+                    _mapProvider = new StaticOpenStreetMapProvider();
+                    break;
+
                 default:
                     throw new InvalidOperationException("The provider type requested is not supported.");
             }
@@ -298,6 +336,7 @@ namespace JeffWilcox.Controls
                 _mapProvider.ZoomLevel = ZoomLevel;
                 _mapProvider.IsSensor = IsSensorCoordinate;
                 _mapProvider.Center = MapCenter;
+                _mapProvider.MapMode = MapMode;
                 _mapProvider.Validate();
 
                 ActualImageSource = _mapProvider.GetStaticMap();

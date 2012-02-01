@@ -36,6 +36,10 @@ namespace JeffWilcox.Controls
         public int ZoomLevel { get; set; }
 
         public bool IsSensor { get; set; }
+        
+        public string ProviderKey { get; set; }
+
+        public StaticMapMode MapMode { get; set; }
 
         public void SetSize(int width, int height)
         {
