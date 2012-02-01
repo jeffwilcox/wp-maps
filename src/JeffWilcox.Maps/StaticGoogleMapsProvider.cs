@@ -46,7 +46,8 @@ namespace JeffWilcox.Controls
             "&zoom={2}" + // zoomLevel // int from 1 to 22, 15 seems normal-ish
             "&size=" +
             "{3}x{4}" + // width, height
-            "&sensor={5}"; // dev key
+            "&sensor={5}" + // dev key
+            "&maptype={6}"; // map type
 
         public override Uri GetStaticMap()
         {
@@ -67,8 +68,32 @@ namespace JeffWilcox.Controls
                 BingMapsHelper.ClampZoomLevel(ZoomLevel),
                 width,
                 height,
-                IsSensor ? "true" : "false"), UriKind.Absolute);
+                IsSensor ? "true" : "false",
+                TranslateMapMode(this.MapMode)), UriKind.Absolute);
             return uri;
+        }
+
+        private string TranslateMapMode(StaticMapMode mode)
+        {
+            string mapType = string.Empty;
+
+            switch (mode)
+            {
+                case StaticMapMode.Map:
+                    mapType = "roadmap";
+                    break;
+                case StaticMapMode.Satellite:
+                    mapType = "satellite";
+                    break;
+                case StaticMapMode.Hybrid:
+                    mapType = "hybrid";
+                    break;
+                default:
+                    mapType = "roadmap";
+                    break;
+            }
+
+            return mapType;
         }
 
         public override Uri GetWebBrowserMap()

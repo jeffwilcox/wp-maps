@@ -14,39 +14,30 @@
 // limitations under the License.
 //
 
-// Google Maps is a trademark of Google, Inc.
-// Bing Maps is a trademark of Microsoft Corporation
-
 using System.ComponentModel;
 namespace JeffWilcox.Controls
 {
     /// <summary>
-    /// Represents an Internet static maps provider.
+    /// Represents the visual mode of the map
     /// </summary>
-    public enum StaticMapProviderType
+    public enum StaticMapMode
     {
         /// <summary>
-        /// Bing Maps.
+        /// Map
         /// </summary>
-        [Description("Bing Maps")]
-        Bing,
+        [Description("Map")]
+        Map,
 
         /// <summary>
-        /// Google Maps.
+        /// Satellite
         /// </summary>
-        [Description("Google Maps")]
-        Google,
-        
+        [Description("Satellite")]
+        Satellite,
+
         /// <summary>
-        /// MapQuest.
+        /// Hybrid (Satellite + Road)
         /// </summary>
-        [Description("MapQuest")]
-        MapQuest,
-        
-        /// <summary>
-        /// OpenStreetMap.
-        /// </summary>
-        [Description("OpenStreetMap")]
-        OpenStreetMap,
+        [Description("Hybrid")]
+        Hybrid,
     }
 }

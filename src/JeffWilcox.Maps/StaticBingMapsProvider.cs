@@ -29,16 +29,17 @@ namespace JeffWilcox.Controls
 
         private string _key;
 
-        private const string PushPinFormat = "&pp={5},{6};{7}"; // lat, long, style
+        private const string PushPinFormat = "&pp={6},{7};{8}"; // lat, long, style
 
         private const string StaticMapsUrlFormat =
-            "http://dev.virtualearth.net/REST/v1/Imagery/Map/Road/" +
-            "{0},{1}" + // lat,long
-            "/{2}" + // zoomLevel // int from 1 to 22, 15 seems normal-ish
+            "http://dev.virtualearth.net/REST/v1/Imagery/Map/" +
+            "{0}/" + // map type
+            "{1},{2}" + // lat,long
+            "/{3}" + // zoomLevel // int from 1 to 22, 15 seems normal-ish
             "?mapSize=" +
-            "{3},{4}" + // width, height
+            "{4},{5}" + // width, height
             PushPinFormat + // lat,long of pushpin
-            "&mapVersion=v1&key={8}"; // dev key
+            "&mapVersion=v1&key={9}"; // dev key
 
         public override Uri GetStaticMap()
         {
@@ -48,6 +49,7 @@ namespace JeffWilcox.Controls
             var uri = new Uri(string.Format(
                 CultureInfo.InvariantCulture,
                 format,
+                TranslateMapMode(this.MapMode),
                 Center.Latitude,
                 Center.Longitude,
                 BingMapsHelper.ClampZoomLevel(ZoomLevel),
@@ -61,11 +63,36 @@ namespace JeffWilcox.Controls
             return uri;
         }
 
+        private string TranslateMapMode(StaticMapMode mode)
+        {
+            string mapType = string.Empty;
+
+            switch (mode)
+            {
+                case StaticMapMode.Map:
+                    mapType = "Road";
+                    break;
+                case StaticMapMode.Satellite:
+                    mapType = "Aerial";
+                    break;
+                case StaticMapMode.Hybrid:
+                    mapType = "AerialWithLabels";
+                    break;
+                default:
+                    mapType = "Road";
+                    break;
+            }
+
+            return mapType;
+        }
+
         public override void Validate()
         {
             base.Validate();
 
-            if (_key == null)
+            _key = this.ProviderKey;
+
+            if (string.IsNullOrEmpty(_key))
             {
                 _key = Application.Current.GetStaticResourceString(StaticBingMapsKeyName);
 
