@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JeffWilcox.Maps", "JeffWilcox.Maps.csproj", "{0769A48C-216A-4E68-A522-E5CB5D40F0FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StaticMapSample", "..\StaticMapSample\StaticMapSample.csproj", "{185442D2-398A-412A-9B3E-AD87766E119C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0769A48C-216A-4E68-A522-E5CB5D40F0FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0769A48C-216A-4E68-A522-E5CB5D40F0FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0769A48C-216A-4E68-A522-E5CB5D40F0FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0769A48C-216A-4E68-A522-E5CB5D40F0FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{185442D2-398A-412A-9B3E-AD87766E119C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{185442D2-398A-412A-9B3E-AD87766E119C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{185442D2-398A-412A-9B3E-AD87766E119C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{185442D2-398A-412A-9B3E-AD87766E119C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{185442D2-398A-412A-9B3E-AD87766E119C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{185442D2-398A-412A-9B3E-AD87766E119C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
