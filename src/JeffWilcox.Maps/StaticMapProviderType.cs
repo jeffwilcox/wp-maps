@@ -48,5 +48,8 @@ namespace JeffWilcox.Controls
         /// </summary>
         [Description("OpenStreetMap")]
         OpenStreetMap,
+
+        [Description("Nokia Maps")]
+        Nokia,
     }
 }
