@@ -295,6 +295,10 @@ namespace JeffWilcox.Controls
                     _mapProvider = new StaticOpenStreetMapProvider();
                     break;
 
+                case StaticMapProviderType.Nokia:
+                    _mapProvider = new StaticNokiaMapsProvider();
+                    break;
+
                 default:
                     throw new InvalidOperationException("The provider type requested is not supported.");
             }
