@@ -62,6 +62,7 @@
     <Compile Include="StaticMapProvider.cs" />
     <Compile Include="StaticMapProviderType.cs" />
     <Compile Include="StaticMapQuestProvider.cs" />
+    <Compile Include="StaticNokiaMapsProvider.cs" />
     <Compile Include="StaticOpenStreetMapProvider.cs" />
   </ItemGroup>
   <ItemGroup>
