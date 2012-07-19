@@ -18,3 +18,4 @@ Details of the library are in this [blog post](http://www.jeff.wilcox.name/2012/
 # Credits
 * [Jeff Wilcox](http://www.jeff.wilcox.name) ([@jeffwilcox](http://twitter.com/jeffwilcox)) for the creation of this control
 * [Tim Heuer](http://timheuer.com/blog/) ([@timheuer](http://twitter.com/timheuer)) for adding MapQuest and OpenStreetMap
+* [Christopher Maneu](http://maneu.net/) ([@cmaneu](http://twitter.com/cmaneu)) for adding Nokia Maps

@@ -1,15 +1,32 @@
-﻿using System;
-using System.Globalization;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
+﻿//
+// Copyright (c) 2012 Jeff Wilcox
+// Parts of this class by Christopher Maneu
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
 
+using System;
+using System.Globalization;
+using System.Windows;
+
+//
+// Important API Information:
+// http://api.maps.nokia.com
+//
+// If you use the Nokia Maps static map provider, please confirm that you are
+// using the control appropriately and within the API terms for the
+// service (https://www.developer.nokia.com/Develop/Maps/TC.html).
+//
 namespace JeffWilcox.Controls
 {
     public class StaticNokiaMapsProvider : StaticMapProvider
@@ -20,22 +37,20 @@ namespace JeffWilcox.Controls
         private string _key;
 
         private const string StaticMapsUrlFormat =
-    "http://m.nok.it/?" +
-    "t={0}/" + // map type
-    "&c={1},{2}" + // lat,long
-    "&z={3}" + // zoomLevel // int from 1 to 22, 15 seems normal-ish
-    "&w={4}&h={5}" + // width, height
-  //  PushPinFormat + // lat,long of pushpin
-    "&app_id={6}&nord"; // dev key
+        "http://m.nok.it/?" +
+        "t={0}" +              // map type
+        "&c={1},{2}" +          // lat,long
+        "&z={3}" +              // zoomLevel
+        "&w={4}&h={5}" +        // width, height
+        "&app_id={6}";          // App key
 
         public override Uri GetStaticMap()
         {
             RequireCenter();
 
-     //       var format = StaticMapsUrlFormat.Replace(PushPinFormat, string.Empty);
             var uri = new Uri(string.Format(
                 CultureInfo.InvariantCulture,
-                StaticMapsUrlFormat,
+                StaticMapsUrlFormat + "&nord",
                 TranslateMapMode(this.MapMode),
                 Center.Latitude,
                 Center.Longitude,
@@ -89,15 +104,22 @@ namespace JeffWilcox.Controls
 
         public override Uri GetWebBrowserMap()
         {
+            // Nokia service automatically redirect to web browser version if opened in a web browser,
+            // when "nord" parameter is missing
             RequireCenter();
 
-            return new Uri(string.Format(
+            var uri = new Uri(string.Format(
                 CultureInfo.InvariantCulture,
-                "http://maps.live.com/?v=2&cp={0},{1}&lvl={2}",
+                StaticMapsUrlFormat + "&nord",
+                TranslateMapMode(this.MapMode),
                 Center.Latitude,
                 Center.Longitude,
-                BingMapsHelper.ClampZoomLevel(ZoomLevel)),
-                UriKind.Absolute);
+                ZoomLevel,
+                Width,
+                Height,
+                _key
+                ), UriKind.Absolute);
+            return uri;
         }
     }
 }
