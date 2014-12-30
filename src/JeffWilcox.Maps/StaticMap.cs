@@ -250,6 +250,32 @@ namespace JeffWilcox.Controls
         }
         #endregion public bool IsSensorCoordinate
 
+        #region public StaticMapStatus Status
+
+        /// <summary>
+        /// Gets the download status of the map.
+        /// </summary>
+        public StaticMapStatus Status { get; private set; }
+
+        public event EventHandler<StaticMapStatusChangedEventArgs> StatusChanged;
+
+        private void UpdateStatus(StaticMapStatus status, Exception ex = null)
+        {
+            if (status == Status)
+            {
+                return;
+            }
+
+            Status = status;
+            
+            if (StatusChanged != null)
+            {
+                StatusChanged(this, new StaticMapStatusChangedEventArgs(status, ex));
+            }
+        }
+
+        #endregion
+
         public StaticMap()
         {
             DefaultStyleKey = typeof(StaticMap);
@@ -271,10 +297,22 @@ namespace JeffWilcox.Controls
             base.OnApplyTemplate();
 
             _image = GetTemplateChild(ImagePartName) as Image;
+            _image.ImageFailed += new EventHandler<ExceptionRoutedEventArgs>(OnImageFailed);
+            _image.ImageOpened += new EventHandler<RoutedEventArgs>(OnImageOpened);
 
             UpdateMap();
         }
 
+        private void OnImageFailed(object source, ExceptionRoutedEventArgs e)
+        {
+            UpdateStatus(StaticMapStatus.Failed, e.ErrorException);
+        }
+
+        private void OnImageOpened(object source, RoutedEventArgs e)
+        {
+            UpdateStatus(StaticMapStatus.Done);
+        }
+        
         private void UpdateProvider()
         {
             switch (Provider)
@@ -344,7 +382,15 @@ namespace JeffWilcox.Controls
                 _mapProvider.Validate();
 
                 ActualImageSource = _mapProvider.GetStaticMap();
-                _image.Source = new BitmapImage(ActualImageSource);
+                UpdateStatus(StaticMapStatus.Downloading);
+                try
+                {
+                    _image.Source = new BitmapImage(ActualImageSource);
+                }
+                catch (Exception ex)
+                {
+                    UpdateStatus(StaticMapStatus.Failed, ex);
+                }
             }
         }
     }
